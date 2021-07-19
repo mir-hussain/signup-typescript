@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 
 const useInput = () => {
-  interface IError {
+  interface IInputField {
     name?: string;
     email?: string;
     password?: string;
+    phone?: string;
+    age?: number;
   }
-  const [error, setError] = useState<IError>({});
-  const [userInput, setUserInput] = useState<object>({});
+  const [error, setError] = useState<IInputField>({});
+  const [userInput, setUserInput] = useState<IInputField>({});
 
   const updateErrorByEvent = (
     event: React.FormEvent<HTMLInputElement>,
@@ -19,10 +21,7 @@ const useInput = () => {
     }));
   };
 
-  const updateErrorManually = (
-    name: string,
-    warningText: string
-  ) => {
+  const updateErrorManually = (name: string, warningText: string) => {
     setError((currentError) => ({
       ...currentError,
       [name]: warningText,
@@ -36,31 +35,20 @@ const useInput = () => {
     }));
   };
 
-  const handleInvalid = (
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
+  const handleInvalid = (event: React.FormEvent<HTMLInputElement>) => {
     event.preventDefault();
-    updateErrorByEvent(
-      event,
-      `${event.currentTarget.name} can't be empty`
-    );
+    updateErrorByEvent(event, `${event.currentTarget.name} can't be empty`);
   };
 
   const nameValidation = (username: string) => {
     if (/([0-9])/.test(username)) {
       updateUserInput("name", "");
-      updateErrorManually(
-        "name",
-        "Name can't have numbers in it"
-      );
+      updateErrorManually("name", "Name can't have numbers in it");
     } else {
       setError({});
       if (username.length < 4) {
         updateUserInput("name", "");
-        updateErrorManually(
-          "name",
-          "Name can't be less than 4 character"
-        );
+        updateErrorManually("name", "Name can't be less than 4 character");
       } else {
         setError({});
         updateUserInput("name", username);
@@ -96,9 +84,27 @@ const useInput = () => {
     }
   };
 
-  const getInput = (
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
+  const phoneValidation = (phone: string) => {
+    if (phone.length < 11) {
+      updateErrorManually("phone", "Phone number must be 11 digit.");
+      updateUserInput("phone", "");
+    } else {
+      setError({});
+      updateUserInput("phone", phone);
+    }
+  };
+
+  const ageValidation = (age: number) => {
+    if (age > 18) {
+      updateUserInput("age", "Your age is over 18 years.");
+    } else if (age === 18) {
+      updateUserInput("age", "You are 18 years old.");
+    } else {
+      updateUserInput("age", "Your age is under 18 years.");
+    }
+  };
+
+  const getInput = (event: React.FormEvent<HTMLInputElement>) => {
     const inputName = event.currentTarget.name;
     const inputValue = event.currentTarget.value;
 
@@ -108,6 +114,10 @@ const useInput = () => {
       emailValidation(inputValue);
     } else if (inputName === "password") {
       passwordValidation(inputValue);
+    } else if (inputName === "phone") {
+      phoneValidation(inputValue);
+    } else if (inputName === "age") {
+      ageValidation(parseInt(inputValue));
     }
   };
 

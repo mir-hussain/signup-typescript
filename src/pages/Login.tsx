@@ -3,12 +3,9 @@ import "./Login.css";
 import useInput from "../hooks/useInput";
 
 const Login = () => {
-  const { getInput, handleInvalid, error, userInput } =
-    useInput();
+  const { getInput, handleInvalid, error, userInput } = useInput();
 
-  const handleSubmit = (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(userInput);
   };
@@ -28,6 +25,18 @@ const Login = () => {
           {error?.name && <p>{error?.name}</p>}
         </div>
         <div>
+          <label htmlFor='age'>Age: </label>
+          <input
+            type='text'
+            name='age'
+            id='age'
+            onBlur={getInput}
+            onInvalid={handleInvalid}
+            required
+          />
+          {error?.name && <p>{error?.name}</p>}
+        </div>
+        <div>
           <label htmlFor='email'>Email: </label>
           <input
             type='email'
@@ -38,6 +47,18 @@ const Login = () => {
             required
           />
           {error?.email && <p>{error?.email}</p>}
+        </div>
+        <div>
+          <label htmlFor='phone'>Phone: </label>
+          <input
+            type='text'
+            name='phone'
+            id='phone'
+            onBlur={getInput}
+            onInvalid={handleInvalid}
+            required
+          />
+          {error?.phone && <p>{error?.phone}</p>}
         </div>
         <div>
           <label htmlFor='password'>Password: </label>
