@@ -1,18 +1,35 @@
 import React from "react";
-import "./Login.css";
+import { useState } from "react";
 import useInput from "../hooks/useInput";
 
 const Login = () => {
   const { getInput, handleInvalid, error, userInput } = useInput();
 
+  interface IData {
+    name?: string;
+    email?: string;
+    password?: string;
+    phone?: string;
+    age?: number;
+  }
+  const [data, setData] = useState<IData>({});
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(userInput);
+    setData((pData) => ({ ...pData, ...userInput }));
   };
+
+  console.log(data);
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <div>
+        {data.name && (
+          <p>
+            Name: {data.name}, Email: {data.email}
+          </p>
+        )}
+      </div>
+      <form onSubmit={handleSubmit} className='login-form'>
+        <div className='login-form__input'>
           <label htmlFor='name'>Name: </label>
           <input
             type='text'
@@ -24,7 +41,7 @@ const Login = () => {
           />
           {error?.name && <p>{error?.name}</p>}
         </div>
-        <div>
+        <div className='login-form__input'>
           <label htmlFor='age'>Age: </label>
           <input
             type='text'
@@ -34,9 +51,9 @@ const Login = () => {
             onInvalid={handleInvalid}
             required
           />
-          {error?.name && <p>{error?.name}</p>}
+          {error?.age && <p>{error?.age}</p>}
         </div>
-        <div>
+        <div className='login-form__input'>
           <label htmlFor='email'>Email: </label>
           <input
             type='email'
@@ -48,7 +65,7 @@ const Login = () => {
           />
           {error?.email && <p>{error?.email}</p>}
         </div>
-        <div>
+        <div className='login-form__input'>
           <label htmlFor='phone'>Phone: </label>
           <input
             type='text'
@@ -60,7 +77,7 @@ const Login = () => {
           />
           {error?.phone && <p>{error?.phone}</p>}
         </div>
-        <div>
+        <div className='login-form__input'>
           <label htmlFor='password'>Password: </label>
           <input
             type='password'

@@ -1,0 +1,33 @@
+@mixin flex($justify: center, $align: center, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+main {
+  height: 100vh;
+  width: 100%;
+  @include flex();
+}
+
+.login-form {
+  background-color: #8f8f8f;
+  padding: 1.5em;
+  width: 300px;
+  height: 100%;
+  &__input {
+    @include flex(center, flex-start, column);
+    margin-bottom: 0.5em;
+    input {
+      width: 100%;
+      font-size: 1.2rem;
+    }
+  }
+}

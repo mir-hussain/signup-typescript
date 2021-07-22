@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const useInput = () => {
   interface IInputField {
@@ -11,13 +11,10 @@ const useInput = () => {
   const [error, setError] = useState<IInputField>({});
   const [userInput, setUserInput] = useState<IInputField>({});
 
-  const updateErrorByEvent = (
-    event: React.FormEvent<HTMLInputElement>,
-    status: string
-  ) => {
+  const updateErrorByEvent = (event: any, status: string) => {
     setError((currentError) => ({
       ...currentError,
-      [event.currentTarget.name]: status,
+      [event.target.name]: status,
     }));
   };
 
@@ -35,9 +32,9 @@ const useInput = () => {
     }));
   };
 
-  const handleInvalid = (event: React.FormEvent<HTMLInputElement>) => {
+  const handleInvalid = (event: any) => {
     event.preventDefault();
-    updateErrorByEvent(event, `${event.currentTarget.name} can't be empty`);
+    updateErrorByEvent(event, `${event.target.name} can't be empty`);
   };
 
   const nameValidation = (username: string) => {
@@ -104,9 +101,9 @@ const useInput = () => {
     }
   };
 
-  const getInput = (event: React.FormEvent<HTMLInputElement>) => {
-    const inputName = event.currentTarget.name;
-    const inputValue = event.currentTarget.value;
+  const getInput = (event: any) => {
+    const inputName = event.target.name;
+    const inputValue = event.target.value;
 
     if (inputName === "name") {
       nameValidation(inputValue);

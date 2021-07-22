@@ -1,11 +1,12 @@
 import React from "react";
 import Login from "./pages/Login";
+import "./styles/main.scss";
 
 const App = () => {
   return (
-    <div>
+    <main>
       <Login />
-    </div>
+    </main>
   );
 };
 
